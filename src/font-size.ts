@@ -21,19 +21,26 @@ declare module '@tiptap/core' {
   }
 }
 
+const removeTempSpan = (p: Element) =>
+  p?.childNodes.forEach((child) => {
+     const htmlChild = child as HTMLSpanElement
+     htmlChild.innerHTML = htmlChild.innerHTML.replace(String.fromCodePoint(0x200b), '')
+  })
+
+const initialize = (fontSize: string) => {
+  const p = Array.from(document.querySelector('.ProseMirror')?.children || [])[0]
+  removeTempSpan(p)
+  if ((p?.childNodes[0] as HTMLElement).tagName === 'BR') {
+     p.innerHTML = `<span style="font-size: ${fontSize}">&ZeroWidthSpace;</span>`
+  }
+}
+
 const DEFAULT_FONT_SIZE = '12px';
 
 export const FontSize = Extension.create<FontSizeOptions>({
   name: 'fontSize',
 
-  onCreate: ({ editor }: { editor: Editor }) =>
-    editor.chain().focus().initialize(DEFAULT_FONT_SIZE).run(),
-  // @ts-ignore
-  onUpdate: ({ editor }) => {
-    if (editor.getText().length === 0)
-      editor.chain().focus().initialize(DEFAULT_FONT_SIZE).run();
-  },
-
+  
   addOptions(): FontSizeOptions {
     return {
       types: ['textStyle'],
@@ -42,7 +49,7 @@ export const FontSize = Extension.create<FontSizeOptions>({
       },
     };
   },
-
+  
   addGlobalAttributes() {
     return [
       {
@@ -67,6 +74,8 @@ export const FontSize = Extension.create<FontSizeOptions>({
     ];
   },
 
+  // @ts-ignore
+  onCreate: ({ editor }: { editor: Editor }) => editor.chain().focus().initialize(DEFAULT_FONT_SIZE).run(),
   addCommands() {
     return {
       setFontSize:
@@ -82,6 +91,13 @@ export const FontSize = Extension.create<FontSizeOptions>({
             .removeEmptyTextStyle()
             .run();
         },
+      initialize:
+        (fontSize: string) =>
+        ({ chain }: any) => {
+           initialize(fontSize)
+           return chain().setMark('textStyle', { fontSize }).run()
+        },
     };
   },
 });
+
