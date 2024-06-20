@@ -1,9 +1,9 @@
 {
-  "name": "tiptap-extension-font-size",
-  "author": "theNaschkatze",
+  "name": "@rodrigo-ec/tiptap-extension-font-size-test",
+  "author": "theNaschkatze/rodrigoec",
   "description": "font size extension for tiptap",
   "version": "1.2.0",
-  "homepage": "https://github.com/TheNaschkatze/tiptap-extension-font-size#readme",
+  "homepage": "https://github.com/RodrigoEC/tiptap-extension-font-size#readme",
   "keywords": [
     "tiptap",
     "tiptap extension"
@@ -48,7 +48,10 @@
     "trailingComma": "es5"
   },
   "bugs": {
-    "url": "https://github.com/TheNaschkatze/tiptap-extension-font-size/issues"
+    "url": "https://github.com/RodrigoEC/tiptap-extension-font-size/issues"
   },
-  "repository": "git+https://github.com/TheNaschkatze/tiptap-extension-font-size.git"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodrigoEC/tiptap-extension-font-size.git"
+  }
 }
